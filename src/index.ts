@@ -4,3 +4,5 @@ export * from "./decorators/method"
 export * from "./enums/http.enum"
 
 export * from "./decorators/request"
+
+export * from "./decorators/middleware"

@@ -21,21 +21,20 @@ export function Method(config: MethodConfig): MethodDecorator {
         const original = descriptor.value
 
         descriptor.value = function (req: Request, res: Response, next: NextFunction) {
-   
+
             let map = {
                 "arg:body": req.body,
                 "arg:query": req.query,
                 "arg:params": req.params,
                 "arg:request": req,
                 "arg:response": res,
-                "arg:next": next
+                "arg:next": next,
+                "middleware": undefined
             } as const
+            const propertyMetadataKey: (keyof typeof map)[] = Reflect.getOwnMetadataKeys(target, original.name)
 
-            const injectableArgsKey: (keyof typeof map)[] = Reflect.getOwnMetadataKeys(target, original.name).filter((key: string) => key.startsWith("arg"))
-
-
-
-
+            const injectableArgsKey: (keyof typeof map)[] = propertyMetadataKey.filter((key: string) => key.startsWith("arg"))
+           
             for (const key of injectableArgsKey) {
                 const argPostion = Reflect.getMetadata(key, target, original.name)
                 store.set(argPostion, map[key])
