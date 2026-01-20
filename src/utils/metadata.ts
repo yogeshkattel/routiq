@@ -5,6 +5,7 @@ import { getStructuredRouteFromClasss, structuredRouteMethodData } from "./getMe
 
 export type StructuredRoutes = {
     path: string,
+    controllerClass: any
     paths: structuredRouteMethodData[]
 }
 
@@ -16,7 +17,7 @@ export function getStructuredRouteData(controllerPath: string) {
         const metadata = Reflect.getMetadata("controller", cls)
         
         const routeMetadata: structuredRouteMethodData[] = getStructuredRouteFromClasss(cls)
-        strucutredRoutes.push({ path: metadata, paths: routeMetadata })
+        strucutredRoutes.push({ path: metadata, controllerClass:cls ,paths: routeMetadata })
 
 
     }

@@ -1,19 +1,19 @@
-import { MethodConfig } from "../decorators/method";
+import { MethodConfig, MethodInternalConfig } from "../decorators/method";
 import { getFunctionsFromClass } from "./getFunctionsFromClass";
 
 export type structuredRouteMethodData = {
-    config: MethodConfig,
-    method: (...args: any[]) => any
+    config: MethodInternalConfig,
+    method: any
 }
 
 
 
 export function getStructuredRouteFromClasss(cls:any):structuredRouteMethodData[]  {
-    const methods = getFunctionsFromClass(cls)
+    const functions = getFunctionsFromClass(cls)
     const structuredRoute: structuredRouteMethodData[] = []
-    for (const method of methods) {
-        const metadata: MethodConfig = Reflect.getMetadata("method", cls.prototype, method)
-        structuredRoute.push({ method: cls.prototype[method], config: metadata })
+    for (const func of functions) {
+        const metadata = Reflect.getMetadata("method", cls.prototype, func)
+        structuredRoute.push({ method: cls.prototype[func], config: metadata })
 
     }
 

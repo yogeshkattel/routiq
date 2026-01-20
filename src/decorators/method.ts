@@ -8,16 +8,52 @@ export type MethodConfig = {
     version?: string
 }
 
+export type MethodInternalConfig = MethodConfig & { methodName: string };
+
+
+
 export function Method(config: MethodConfig): MethodDecorator {
     return (target, propertyKey, descriptor?: PropertyDescriptor) => {
-
+        const store = new Map<number, any>();
         if (!descriptor) {
             descriptor = Object.getOwnPropertyDescriptor(target, propertyKey as string)!;
         }
-        const original = descriptor.value 
+        const original = descriptor.value
 
         descriptor.value = function (req: Request, res: Response, next: NextFunction) {
-            const result = original.apply(this, [req, res, next])
+            let bodyArgPostition = Reflect.getMetadata("arg:body", target, original.name)
+            let queryParamPostion = Reflect.getMetadata("arg:query", target, original.name)
+            let paramPostion = Reflect.getMetadata("arg:params", target, original.name)
+
+            store.set(bodyArgPostition, req.body)
+            store.set(queryParamPostion, req.query)
+            store.set(paramPostion, req.params)
+            let map = {
+                "arg:body": req.body,
+                "arg:query": req.query,
+                "arg:params": req.params,
+                "arg:request": req,
+                "arg:response": res,
+                "arg:next": next
+            } as const
+
+            const injectableArgsKey: (keyof typeof map)[] = Reflect.getOwnMetadataKeys(target, original.name).filter((key: string) => key.startsWith("arg"))
+
+
+
+
+            for (const key of injectableArgsKey) {
+                const argPostion = Reflect.getMetadata(key, target, original.name)
+                store.set(argPostion, map[key])
+
+            }
+
+            const args: any[] = [];
+
+            for (const [index, value] of store.entries()) {
+                args[index] = value;
+            }
+            const result = original.apply(this, args)
             if (res == null) {
                 return
             }
@@ -27,7 +63,7 @@ export function Method(config: MethodConfig): MethodDecorator {
                 res.json(result)
             }
         }
-        Reflect.defineMetadata("method", config, target, propertyKey);
+        Reflect.defineMetadata("method", { ...config, methodName: propertyKey }, target, propertyKey);
 
         return descriptor
     }
