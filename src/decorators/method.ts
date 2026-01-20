@@ -1,6 +1,14 @@
 import { NextFunction, Request, Response } from "express"
+import { HttpEnum } from "../enums/http.enum";
 
-export function Method(metadata: string): MethodDecorator {
+
+export type MethodConfig = {
+    method: HttpEnum,
+    path: string,
+    version?: string
+}
+
+export function Method(config: MethodConfig): MethodDecorator {
     return (target, propertyKey, descriptor?: PropertyDescriptor) => {
 
         if (!descriptor) {
@@ -19,7 +27,7 @@ export function Method(metadata: string): MethodDecorator {
                 res.json(result)
             }
         }
-        Reflect.defineMetadata("method", metadata, target, propertyKey);
+        Reflect.defineMetadata("method", config, target, propertyKey);
 
         return descriptor
     }

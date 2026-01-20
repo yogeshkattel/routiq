@@ -14,6 +14,7 @@ export function getStructuredRouteData(controllerPath: string) {
     for (const cls of classesFromFolder) {
 
         const metadata = Reflect.getMetadata("controller", cls)
+        
         const routeMetadata: structuredRouteMethodData[] = getStructuredRouteFromClasss(cls)
         strucutredRoutes.push({ path: metadata, paths: routeMetadata })
 

@@ -1,8 +1,8 @@
-import  {Controller, Method} from 'routiq'
+import  {Controller, HttpEnum, Method} from 'routiq'
 @Controller("/test")
 export class Test {
 
-    @Method("/test")
+    @Method({method: HttpEnum.POST, path: "/halo"})
     test() {
         return {"hello": "world"}
     }
