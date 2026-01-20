@@ -6,3 +6,4 @@ export * from "./enums/http.enum"
 export * from "./decorators/request"
 
 export * from "./decorators/middleware"
+export * from "./decorators/afterware"
