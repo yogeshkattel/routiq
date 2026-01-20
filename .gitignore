@@ -1,0 +1,52 @@
+# Node modules
+node_modules/
+.pnp/
+.pnp.js
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Compiled TypeScript
+dist/
+build/
+*.tsbuildinfo
+
+# Optional npm cache
+.npm/
+.eslintcache
+
+# IDEs and editors
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Temporary
+*.tmp
+*.temp
+*.swp
+
+# TS Node artifacts
+tsconfig.tsbuildinfo
+
+# Optional Metadata for Reflect/Decorators
+*.metadata.json
+
+# Misc
+*.bak
+*.old
