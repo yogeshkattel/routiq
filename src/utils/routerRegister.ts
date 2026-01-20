@@ -13,8 +13,6 @@ export function routerRegister(controllerPath: string) {
                     .filter((p): p is string => p !== undefined && p !== null)
 
             )
-            console.log(route)
-            
             router[route.config.method](path, route.method.bind(route.method))
         }
     }

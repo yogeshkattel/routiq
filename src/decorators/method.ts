@@ -21,13 +21,7 @@ export function Method(config: MethodConfig): MethodDecorator {
         const original = descriptor.value
 
         descriptor.value = function (req: Request, res: Response, next: NextFunction) {
-            let bodyArgPostition = Reflect.getMetadata("arg:body", target, original.name)
-            let queryParamPostion = Reflect.getMetadata("arg:query", target, original.name)
-            let paramPostion = Reflect.getMetadata("arg:params", target, original.name)
-
-            store.set(bodyArgPostition, req.body)
-            store.set(queryParamPostion, req.query)
-            store.set(paramPostion, req.params)
+   
             let map = {
                 "arg:body": req.body,
                 "arg:query": req.query,

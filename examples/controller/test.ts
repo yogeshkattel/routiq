@@ -7,7 +7,6 @@ export class Test {
     test(@Body() id: any, @Query() data: any, @Req() request: Request) {
         console.log(id)
         console.log(data.test)
-        console.log(request)
 
         return { "hello": "world" }
     }
