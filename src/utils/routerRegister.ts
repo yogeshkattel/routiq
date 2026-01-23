@@ -10,8 +10,6 @@ export function routerRegister(controllerPath: string) {
         for (const route of controller.paths) {
 
             const middlewares = Reflect.getMetadata("middlewares", controller.controllerClass.prototype, route.config.methodName) ?? [];
-            const afterwares =  Reflect.getMetadata("afterwares", controller.controllerClass.prototype, route.config.methodName) ?? []
-
 
             const path = parsePath(
                 [route.config?.version, controller.path, route.config.path,]

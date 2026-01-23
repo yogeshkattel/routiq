@@ -9,16 +9,14 @@ export class Test {
         console.log("I am hitting a middleware")
         next()
     })
-    @AfterWares((req, res, err) => {
+    @AfterWares((req, res) => {
         console.log("I am hitting a afterware")
-        err("SOmething is worng")
-        
+
+        return
+
     })
     async test(@Body() id: any, @Query() data: any, @Req() request: Request) {
-        console.log("hello")
-        await new Promise<void>((resolve, reject) => setTimeout(() => {
-            resolve()
-        }, 1000))
+
 
         return { "hello": "world" }
     }

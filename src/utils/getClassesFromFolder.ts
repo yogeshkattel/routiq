@@ -1,6 +1,8 @@
 import { existsSync, readdirSync } from 'fs'
 import { join } from 'path'
 
+
+
 export function getClassFromFolder(path: string): object[] {
     const newPath = join(process.cwd(), path)
     if (!existsSync(newPath)) throw new Error("Folder does not exist")
@@ -10,7 +12,7 @@ export function getClassFromFolder(path: string): object[] {
 
     for (const file of files) {
         const filePath = join(newPath, file)
-        const classInFile = require(filePath) // now works in ESM
+        const classInFile = require(filePath) 
         classes.push(...Object.values(classInFile))
     }
     return classes as any

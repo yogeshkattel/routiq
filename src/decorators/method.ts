@@ -47,21 +47,12 @@ export function Method(config: MethodConfig): MethodDecorator {
                     args[index] = value;
                 }
                 const data = await original.apply(this, args)
-
                 const afterwares: RequestHandler[] = Reflect.getMetadata("afterwares", target, original.name)
-
                 for (const aw of afterwares) {
-                    await new Promise<void>((resolve, reject) => {
-                        try {
-                            aw(req, res, (err?: any) => {
-                                if (err) return reject(err)
-                                resolve();
-                            })
-                        } catch (err) {
-
-                            reject(err)
-                        }
-                    })
+                    const awResult = aw(req, res, next)
+                    if (awResult instanceof Promise) {
+                        await awResult
+                    }
                 }
                 if (!res.headersSent) res.json(data)
             } catch (err: any) {
