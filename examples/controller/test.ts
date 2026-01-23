@@ -11,9 +11,7 @@ export class Test {
     })
     @AfterWares((req, res) => {
         console.log("I am hitting a afterware")
-
         return
-
     })
     async test(@Body() id: any, @Query() data: any, @Req() request: Request) {
 
